@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ad Clicker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007AFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ad Clicker</h1>
+    <button id="startButton">Start Clicking Ads</button>
+    <script>
+        document.getElementById('startButton').addEventListener('click', function() {
+            // Open the ad URL in a new tab
+            var adWindow = window.open('https://adfly.site/JesusWebsite', '_blank');
+
+            // Function to click the screen once
+            function clickAd() {
+                if (adWindow && !adWindow.closed) {
+                    // This is a simplified example. Actual implementation may vary.
+                    adWindow.focus();
+                    // Simulate a click event. Note: This may not work due to security restrictions.
+                    var clickEvent = new MouseEvent('click', {
+                        view: adWindow,
+                        bubbles: true,
+                        cancelable: true
+                    });
+                    adWindow.document.dispatchEvent(clickEvent);
+
+                    // Repeat the process after a delay
+                    setTimeout(clickAd, 5000); // 5 seconds delay
+                } else {
+                    // If the ad window is closed, stop the process
+                    clearTimeout(clickAd);
+                }
+            }
+
+            // Start the process after a short delay to allow the ad window to load
+            setTimeout(clickAd, 2000);
+        });
+    </script>
+</body>
+</html>
