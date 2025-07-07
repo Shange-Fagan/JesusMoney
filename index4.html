@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ad Clicker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #007AFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ad Clicker</h1>
+    <button id="startButton">Start Clicking Ads</button>
+    <script>
+        document.getElementById('startButton').addEventListener('click', function() {
+            // Function to open a new tab and simulate a touch event
+            function openTabAndSimulateTouch() {
+                // Open the ad URL in a new tab
+                var adWindow = window.open('https://adfly.site/JesusWebsite', '_blank');
+
+                if (adWindow) {
+                    // Wait for the tab to load and then attempt to simulate a touch event
+                    setTimeout(function() {
+                        if (!adWindow.closed) {
+                            adWindow.focus();
+                            // Create and dispatch a touch event
+                            var touchObj = new adWindow.Touch({
+                                identifier: Date.now(),
+                                target: adWindow.document.elementFromPoint(100, 100),
+                                clientX: 100,
+                                clientY: 100,
+                                screenX: 100,
+                                screenY: 100,
+                                pageX: 100,
+                                pageY: 100,
+                                radiusX: 2,
+                                radiusY: 2,
+                                rotationAngle: 0,
+                                force: 1
+                            });
+
+                            var touchEvent = new adWindow.TouchEvent('touchstart', {
+                                changedTouches: [touchObj],
+                                target: adWindow.document.elementFromPoint(100, 100)
+                            });
+
+                            adWindow.document.dispatchEvent(touchEvent);
+                        }
+                    }, 2000); // Wait for 2 seconds to allow the page to load
+                }
+            }
+
+            // Open a new tab and simulate a touch event every 5 seconds
+            var intervalId = setInterval(openTabAndSimulateTouch, 5000);
+
+            // Optional: Add a way to stop the interval, e.g., by adding a stop button
+            document.getElementById('stopButton').addEventListener('click', function() {
+                clearInterval(intervalId);
+            });
+        });
+    </script>
+    <button id="stopButton">Stop Clicking Ads</button>
+</body>
+</html>
